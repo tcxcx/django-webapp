@@ -26,6 +26,7 @@
         @click="repliesOpen = !repliesOpen"
         class="font-bold hover:underline cursor-pointer"
       >
+      {% if comment.replies.count or user.is_authenticated %}
         <div
           class="inline-block"
           x-bind:class="repliesOpen && 'rotate-90 duration-300'"
@@ -39,9 +40,10 @@
             <path d="M24 22h-24l12-20z" />
           </svg>
         </div>
+        {% endif %}
         {% if comment.replies.count %}
         Replies
-        <span class="font-light text-gray-500 ml-1">{{ comment.replies.count }}</span>
+        <span id="repliescount-{{ comment.id }}" class="font-light text-gray-500 ml-1">{{ comment.replies.count }}</span>
         {% else %}
         {% if user.is_authenticated %}
         Add reply
@@ -56,6 +58,7 @@
           1
         </div>
         <a href="">Like</a>
+        {% include 'snippets/likes_comment.html' %}
         {% if user.is_authenticated and comment.author == user %}
         <a href="{% url 'comment-delete' comment.id %}">Delete</a>
         {% endif %}
@@ -69,17 +72,20 @@
        {% for reply in comments.replies.all %}
        {% include 'a_posts/reply.html' %}
        {% endfor %}
-
+        {% if user.is_authenticated %}
         <form
-          method="POST"
-          action="{% url 'reply-sent' comment.id %}"
           class="replyform flex justify-between"
           autocomplete="off"
+          hx-post="{% url 'reply-sent' comment.id %}"
+          hx-target="this"
+          hx-swap="outerHTML" 
         >
         {% csrf_token %}
          {{ replyform }}
           <button class="block" type="submit">Submit</button>
         </form>
+
+       { % endif % }
       </div>
     </div>
   </comment>
