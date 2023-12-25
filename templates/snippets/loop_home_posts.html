@@ -1,9 +1,13 @@
-{% extends 'layouts/a.html'  %}
 
-{% block content %}
+<fade-in 
+class="opacity-0 block -mt-20 ease-in-out" 
+_="on load transition my margin-top to 0 over 0.2 seconds then transition my opacity to 1 over 0.3 seconds"
+>
 
 {% for post in posts %}
+
 {% include 'a_posts/post.html' %}
+
 {% endfor %}
 
 <div
@@ -14,4 +18,4 @@
     hx-swap="outerHTML"
     >
 </div>
-{% endblock %}
+</fade-in>
