@@ -31,6 +31,7 @@ urlpatterns = [
     path('post/edit/<pk>/', post_edit_view, name='post-edit'),
     path('post/<pk>/', post_page_view, name='post'),
     path('post/like/<pk>/', like_post, name='like-post'),
+    path('inbox/', include ('a_inbox.urls')),
     path('<username>/', profile_view, name='userprofile'),
     path('profile/edit/', profile_edit_view, name='profile-edit'),
     path('profile/delete/', profile_delete_view, name='profile-delete'),
